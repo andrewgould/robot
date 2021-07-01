@@ -1,16 +1,16 @@
 import * as fs from 'fs'
 import { DirectionsToNumbers } from './app/constants'
-import { Robot } from './app/controller'
-import { RobotState } from './app/model'
+import { Pacman } from './app/controller'
+import { PacmanState } from './app/model'
 
-let state: RobotState = {
+let state: PacmanState = {
     x: 0,
     y: 0,
     direction: DirectionsToNumbers.East,
     placed: false,
 }
 
-const robot = new Robot({ state, debug: false })
+const robot = new Pacman({ state, debug: false })
 
 fs.readFile('directions.txt', 'utf8', function (err, fileInput) {
     if (err) throw err

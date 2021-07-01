@@ -1,7 +1,7 @@
 {
-  "name": "robot",
+  "name": "pacman",
   "version": "1.0.0",
-  "description": "A demo robot application.",
+  "description": "A demo Pacman application.",
   "main": "index.ts",
   "dependencies": {
     "@types/lodash": "^4.14.170",
@@ -24,6 +24,6 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "bitbucket.org:andrewmgould/robot.git"
+    "url": "https://github.com/andrewgould/robot"
   }
 }

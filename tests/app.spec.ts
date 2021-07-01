@@ -1,15 +1,15 @@
-import { RobotState } from '../app/model'
+import { PacmanState } from '../app/model'
 import { DirectionsToNumbers } from '../app/constants'
-import { Robot } from '../app/controller'
+import { Pacman } from '../app/controller'
 
-let state: RobotState = {
+let state: PacmanState = {
     x: 0,
     y: 0,
     direction: DirectionsToNumbers.East,
     placed: false,
 }
 
-const robot = new Robot({ state, debug: false })
+const robot = new Pacman({ state, debug: false })
 
 test('Scenario 1', () => {
     const directions = ['PLACE 0,0,NORTH', 'MOVE', 'REPORT']

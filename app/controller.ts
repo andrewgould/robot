@@ -1,8 +1,8 @@
 import * as _ from 'lodash'
 import { NumbersToDirections, DirectionsToNumbers } from './constants'
-import { RobotState } from './model'
+import { PacmanState } from './model'
 
-export class Robot {
+export class Pacman {
     public state
     private readonly debug
 
@@ -31,7 +31,7 @@ export class Robot {
                 const choiceArray =
                     decision.length > 0 ? decision[1].split(',') : decision
 
-                let newState: RobotState = {
+                let newState: PacmanState = {
                     x: parseInt(choiceArray[0]),
                     y: parseInt(choiceArray[1]),
                     direction: this.convertDirection(choiceArray[2]),
@@ -99,7 +99,7 @@ export class Robot {
 
             case 'REPORT':
                 if (!this.state.placed) {
-                    return this.logger('The robot is not on the table.')
+                    return this.logger('Pacman is not on the table.')
                 }
                 let cleanedState = _.clone(this.state)
                 cleanedState.direction =
@@ -124,13 +124,13 @@ export class Robot {
 
         if (_x !== x) {
             this.logger(
-                `Robot X coordinate was out of bounds at ${x}, setting to ${_x}.`
+                `Pacman X coordinate was out of bounds at ${x}, setting to ${_x}.`
             )
             state.x = _x
         }
         if (_y !== y) {
             this.logger(
-                `Robot Y coordinate was out of bounds at ${y}, setting to ${_y}.`
+                `Pacman Y coordinate was out of bounds at ${y}, setting to ${_y}.`
             )
             state.y = _y
         }
