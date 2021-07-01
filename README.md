@@ -18,3 +18,6 @@ Valid commands:
 * LEFT to rotate -90°
 * RIGHT to rotate 90°
 * REPORT to report the current location and direction
+
+## Testing it
+From your command line, run `npm test`.
