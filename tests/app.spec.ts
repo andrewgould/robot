@@ -1,7 +1,6 @@
 import { RobotState } from '../app/model'
 import { DirectionsToNumbers } from '../app/constants'
 import { Robot } from '../app/controller'
-import * as fs from 'fs'
 
 let state: RobotState = {
     x: 0,
