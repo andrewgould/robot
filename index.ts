@@ -1,9 +1,7 @@
 import * as fs from 'fs'
-import { DirectionsToNumbers } from './constants'
-import { Robot } from './controller'
-import { RobotState } from './model'
-
-const DEBUG = false
+import { DirectionsToNumbers } from './app/constants'
+import { Robot } from './app/controller'
+import { RobotState } from './app/model'
 
 let state: RobotState = {
     x: 0,
@@ -12,7 +10,7 @@ let state: RobotState = {
     placed: false,
 }
 
-const robot = new Robot(state, DEBUG)
+const robot = new Robot({ state, debug: false })
 
 fs.readFile('directions.txt', 'utf8', function (err, fileInput) {
     if (err) throw err

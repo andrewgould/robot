@@ -6,7 +6,7 @@ export class Robot {
     public state
     private readonly debug
 
-    constructor(state, debug) {
+    constructor({ state, debug }) {
         this.state = state
         this.debug = debug
     }
