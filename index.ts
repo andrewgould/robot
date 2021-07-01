@@ -10,7 +10,7 @@ let state: PacmanState = {
     placed: false,
 }
 
-const robot = new Pacman({ state, debug: false })
+const pacman = new Pacman({ state, debug: false })
 
 fs.readFile('directions.txt', 'utf8', function (err, fileInput) {
     if (err) throw err
@@ -18,6 +18,6 @@ fs.readFile('directions.txt', 'utf8', function (err, fileInput) {
 
     cleanedFile.forEach(function (line) {
         let action = line.split(' ')
-        robot.process(action)
+        pacman.process(action)
     })
 })
