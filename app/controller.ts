@@ -114,11 +114,13 @@ export class Pacman {
         }
     }
 
-    private logger(message: string) {
-        if (this.debug) console.log(message, this.state)
+    logger(message: string) {
+        if (!this.debug) return
+        console.log(message)
+        console.debug(this.state)
     }
 
-    private xyClamp(state = this.state, x, y) {
+    xyClamp(state = this.state, x, y) {
         let _x = _.clamp(x, 0, 4)
         let _y = _.clamp(y, 0, 4)
 
