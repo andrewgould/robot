@@ -1,10 +1,10 @@
 # Robot
-This is the 5x5 grid robot demo that gets used as a coding test. This has been written for execution within Node.
+This is the 5x5 grid robot demo that gets used as a coding test. This has been written for execution within TypeScript.
 
-0,0 is the south west corner, i.e. we're dealing with the positive quadrant of a Cartesian plane.
+0,0 is the south-west corner, i.e., we're dealing with the positive quadrant of a Cartesian plane.
 
 ## Running it
-From your command line, run `node index.js`
+From your command line, run `npm start`
 
 ## Giving it directions
 `directions.txt` contains the directions on each line.
