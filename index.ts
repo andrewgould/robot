@@ -1,23 +1,25 @@
 import * as fs from 'fs'
-import { controlRobot } from './controller'
+import { DirectionsToNumbers } from './constants'
+import { Robot } from './controller'
+import { RobotState } from './model'
 
-import { DIRECTIONS } from './constants'
+const DEBUG = false
 
-const DEBUG = true
-
-let state = {
+let state: RobotState = {
     x: 0,
     y: 0,
-    direction: DIRECTIONS.EAST,
+    direction: DirectionsToNumbers.East,
     placed: false,
 }
+
+const robot = new Robot(state, DEBUG)
 
 fs.readFile('directions.txt', 'utf8', function (err, fileInput) {
     if (err) throw err
     let cleanedFile = fileInput.trim().split('\n')
 
     cleanedFile.forEach(function (line) {
-        let chunks = line.split(' ')
-        controlRobot(state, chunks, DEBUG)
+        let action = line.split(' ')
+        robot.process(action)
     })
 })

@@ -1,12 +1,13 @@
-const NORTH = 0
-const EAST = 90
-const SOUTH = 180
-const WEST = 270
-
-export const DIRECTIONS = { NORTH, EAST, SOUTH, WEST }
-export const NUMERIC_DIRECTIONS = {
+export const NumbersToDirections = {
     0: 'NORTH',
     90: 'EAST',
     180: 'SOUTH',
     270: 'WEST',
+}
+
+export enum DirectionsToNumbers {
+    North = 0,
+    East = 90,
+    South = 180,
+    West = 270,
 }

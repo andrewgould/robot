@@ -1,143 +1,138 @@
 import * as _ from 'lodash'
-import { DIRECTIONS, NUMERIC_DIRECTIONS } from './constants'
+import { NumbersToDirections, DirectionsToNumbers } from './constants'
+import { RobotState } from './model'
 
-/**
- * ƒ controlRobot
- * The interpreter of the directions.
- *
- * @param state
- * @param decision
- * @param debug
- */
-export function controlRobot(state, decision, debug) {
-    if (debug) console.log('START', decision, state)
+export class Robot {
+    public state
+    private readonly debug
 
-    switch (decision[0].toUpperCase()) {
-        case 'PLACE':
-            let choiceArray =
-                decision.length > 0 ? decision[1].split(',') : decision
-            let newState = {
-                x: parseInt(choiceArray[0]),
-                y: parseInt(choiceArray[1]),
-                direction: DIRECTIONS[choiceArray[2].toUpperCase()],
-                placed: true,
-            }
-
-            if (newState.x < 0) {
-                if (debug)
-                    console.log(
-                        'Robot X coordinate was out of bounds, setting to 0.'
-                    )
-                newState.x = 0
-            } else if (newState.x > 4) {
-                if (debug)
-                    console.log(
-                        'Robot X coordinate was out of bounds, setting to 4.'
-                    )
-                newState.x = 4
-            }
-
-            if (newState.y < 0) {
-                if (debug)
-                    console.log(
-                        'Robot Y coordinate was out of bounds, setting to 0.'
-                    )
-                newState.y = 0
-            } else if (newState.y > 4) {
-                if (debug)
-                    console.log(
-                        'Robot Y coordinate was out of bounds, setting to 4.'
-                    )
-                newState.y = 4
-            }
-
-            switch (newState.direction) {
-                case DIRECTIONS.NORTH:
-                case DIRECTIONS.EAST:
-                case DIRECTIONS.SOUTH:
-                case DIRECTIONS.WEST:
-                    break
-
-                default:
-                    if (debug)
-                        console.log(
-                            'Robot direction was not understood, setting to north.'
-                        )
-                    newState.direction = DIRECTIONS.NORTH
-                    break
-            }
-
-            state.x = newState.x
-            state.y = newState.y
-            state.direction = newState.direction
-            state.placed = newState.placed
-
-            break
-
-        case 'MOVE':
-            if (!state.placed) return
-
-            switch (state.direction) {
-                case DIRECTIONS.NORTH:
-                    if (state.y < 4) state.y += 1
-                    break
-
-                case DIRECTIONS.SOUTH:
-                    if (state.y > 0) state.y -= 1
-                    break
-
-                case DIRECTIONS.WEST:
-                    if (state.x > 0) state.x -= 1
-                    break
-
-                case DIRECTIONS.EAST:
-                    if (state.x < 4) state.x += 1
-                    break
-            }
-            break
-
-        case 'LEFT':
-            if (!state.placed) return
-
-            switch (state.direction) {
-                case DIRECTIONS.NORTH:
-                    state.direction = DIRECTIONS.WEST
-                    break
-
-                case DIRECTIONS.EAST:
-                case DIRECTIONS.SOUTH:
-                case DIRECTIONS.WEST:
-                    state.direction -= 90
-                    break
-            }
-            break
-
-        case 'RIGHT':
-            if (!state.placed) return
-
-            switch (state.direction) {
-                case DIRECTIONS.WEST:
-                    state.direction = DIRECTIONS.NORTH
-                    break
-
-                case DIRECTIONS.NORTH:
-                case DIRECTIONS.EAST:
-                case DIRECTIONS.SOUTH:
-                    state.direction += 90
-                    break
-            }
-            break
-
-        case 'REPORT':
-            if (!state.placed) {
-                return console.log('The robot is not on the table.')
-            }
-            let cleanedState = _.clone(state)
-            cleanedState.direction = NUMERIC_DIRECTIONS[state.direction]
-
-            console.log('REPORT:', cleanedState)
-            break
+    constructor(state, debug) {
+        this.state = state
+        this.debug = debug
     }
 
-    if (debug) console.log('END', state)
+    convertDirection(word) {
+        switch (word.toUpperCase()) {
+            case 'NORTH':
+            default:
+                return DirectionsToNumbers.North
+            case 'EAST':
+                return DirectionsToNumbers.East
+            case 'SOUTH':
+                return DirectionsToNumbers.South
+            case 'WEST':
+                return DirectionsToNumbers.West
+        }
+    }
+
+    process(decision) {
+        switch (decision[0].toUpperCase()) {
+            case 'PLACE':
+                const choiceArray =
+                    decision.length > 0 ? decision[1].split(',') : decision
+
+                let newState: RobotState = {
+                    x: parseInt(choiceArray[0]),
+                    y: parseInt(choiceArray[1]),
+                    direction: this.convertDirection(choiceArray[2]),
+                    placed: true,
+                }
+
+                this.xyClamp(newState, newState.x, newState.y)
+                this.state = newState
+
+                break
+
+            case 'MOVE':
+                if (!this.state.placed) return
+
+                switch (this.state.direction) {
+                    case DirectionsToNumbers.North:
+                        if (this.state.y < 4) this.state.y++
+                        break
+
+                    case DirectionsToNumbers.South:
+                        if (this.state.y > 0) this.state.y--
+                        break
+
+                    case DirectionsToNumbers.West:
+                        if (this.state.x > 0) this.state.x--
+                        break
+
+                    case DirectionsToNumbers.East:
+                        if (this.state.x < 4) this.state.x++
+                        break
+                }
+                break
+
+            case 'LEFT':
+                if (!this.state.placed) return
+
+                switch (this.state.direction) {
+                    case DirectionsToNumbers.North:
+                        this.state.direction = DirectionsToNumbers.West
+                        break
+
+                    case DirectionsToNumbers.East:
+                    case DirectionsToNumbers.South:
+                    case DirectionsToNumbers.West:
+                        this.state.direction -= 90
+                        break
+                }
+                break
+
+            case 'RIGHT':
+                if (!this.state.placed) return
+
+                switch (this.state.direction) {
+                    case DirectionsToNumbers.West:
+                        this.state.direction = DirectionsToNumbers.North
+                        break
+
+                    case DirectionsToNumbers.North:
+                    case DirectionsToNumbers.East:
+                    case DirectionsToNumbers.South:
+                        this.state.direction += 90
+                        break
+                }
+                break
+
+            case 'REPORT':
+                if (!this.state.placed) {
+                    return this.logger('The robot is not on the table.')
+                }
+                let cleanedState = _.clone(this.state)
+                cleanedState.direction =
+                    NumbersToDirections[this.state.direction]
+
+                console.log(
+                    `${this.state.x},${this.state.y},${
+                        NumbersToDirections[this.state.direction]
+                    }`
+                )
+                break
+        }
+    }
+
+    private logger(message: string) {
+        if (this.debug) console.log(message, this.state)
+    }
+
+    private xyClamp(state = this.state, x, y) {
+        let _x = _.clamp(x, 0, 4)
+        let _y = _.clamp(y, 0, 4)
+
+        if (_x !== x) {
+            this.logger(
+                `Robot X coordinate was out of bounds at ${x}, setting to ${_x}.`
+            )
+            state.x = _x
+        }
+        if (_y !== y) {
+            this.logger(
+                `Robot Y coordinate was out of bounds at ${y}, setting to ${_y}.`
+            )
+            state.y = _y
+        }
+    }
 }
