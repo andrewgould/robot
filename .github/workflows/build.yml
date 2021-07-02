@@ -5,9 +5,9 @@ name: Build & Test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, pacman ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, pacman ]
 
 jobs:
   build:
