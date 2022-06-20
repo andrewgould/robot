@@ -4,7 +4,7 @@
   "description": "A demo robot application.",
   "main": "index.ts",
   "dependencies": {
-    "@types/lodash": "^4.14.170",
+    "@types/lodash": "^4.14.182",
     "@types/node": "^15.12.5",
     "lodash": "^4.17.21"
   },
