@@ -5,7 +5,7 @@
   "main": "index.ts",
   "dependencies": {
     "@types/lodash": "^4.14.194",
-    "@types/node": "^18.15.11",
+    "@types/node": "^18.16.3",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
